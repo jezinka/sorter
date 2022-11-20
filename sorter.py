@@ -5,9 +5,9 @@ from get_one import get_marble
 
 def sort():
     picam2, config = init_camera()
-    clear_shot = get_shot(picam2, config, "clear.jpg")
+    get_shot(picam2, "clear.jpg")
     get_marble()
-    marble_shot = get_shot(picam2, config, "with_marble.jpg")
+    get_shot(picam2, "with_marble.jpg")
     dump_left()
 
 
