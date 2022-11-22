@@ -1,18 +1,19 @@
-from PIL import Image, ImageChops
+from PIL import Image, ImageChops, ImageFilter
 
 
-def find_difference(first, second):
-    im1 = Image.open(first)
-    im2 = Image.open(second)
+def check_if_black(first, second, pixels, folder=""):
+    im1 = Image.open(folder + first)
+    im2 = Image.open(folder + second)
 
-    box = (200, 60, 580, 200)
-    im1_cropped = im1.crop(box)
-    im2_cropped = im2.crop(box)
-
-    diff = ImageChops.difference(im2_cropped, im1_cropped)
-    print(diff.getcolors(diff.size[0] * diff.size[1]))
-    diff.save("diff.jpg")
+    difference = ImageChops.difference(im1, im2)
+    bw = difference.filter(ImageFilter.MinFilter(9)).convert('1')
+    bbox = bw.getbbox()
+    if bbox is not None:
+        pixel = im2.getpixel((int((bbox[0] + bbox[2]) / 2), int((bbox[1] + bbox[3]) / 2)))
+        pixels.append(pixel)
+        return sum(pixel) < 120 and pixel[0] < 50
+    return False
 
 
 if __name__ == '__main__':
-    find_difference("clear.jpg", "with_marble.jpg")
+    print(check_if_black("clear.jpg", "with_marble.jpg", [], "sample/black/"))

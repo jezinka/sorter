@@ -15,6 +15,7 @@ def close_camera(picam2):
 
 
 def get_shot(picam2, image_name):
+    time.sleep(3)
     picam2.capture_file(image_name)
 
 
