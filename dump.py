@@ -37,6 +37,7 @@ def dump_left():
         time.sleep(0.01)
     servo.angle = None  # disable channel
 
+
 if __name__ == '__main__':
     dump_right()
     dump_left()
