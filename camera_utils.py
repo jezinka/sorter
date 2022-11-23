@@ -1,9 +1,13 @@
 import time
-from picamera2 import Picamera2
+
+from picamera2 import Picamera2, Preview
 
 
 def init_camera():
     picam2 = Picamera2()
+    camera_config = picam2.create_preview_configuration()
+    picam2.configure(camera_config)
+    picam2.start_preview(Preview.QTGL)
     picam2.start()
     time.sleep(1)
     return picam2
@@ -21,4 +25,8 @@ def get_shot(picam2, image_name):
 
 if __name__ == '__main__':
     picam = init_camera()
-    get_shot(picam, "shot.jpg")
+    i = 0
+    while True:
+        get_shot(picam, "sample/shot_"+str(i)+".jpg")
+        i += 1
+        
